@@ -1,0 +1,119 @@
+:root {
+  /* --c-jet-black: #292f36ff; */
+  --c-graphite: #353535ff;
+  --c-stormy-teal: #3c6e71ff;
+  --c-white: #ffffffff;
+  --c-alabaster-grey: #d9d9d9ff;
+  --c-yale-blue: #284b63ff;
+}
+
+/* START CSS RESET */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* END CSS RESET */
+
+body {
+  font-family:
+    "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+    Arial, sans-serif;
+  color: var(--c-white);
+  background-color: var(--c-graphite);
+}
+
+.card {
+  padding: 12px 24px;
+  background-color: var(--c-stormy-teal);
+  border: 2px solid var(--c-alabaster-grey);
+  border-radius: 24px;
+}
+
+.current {
+    margin: 20px auto;
+    width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current__title {
+  color: var(--c-alabaster-grey);
+  align-self: flex-start;
+}
+
+.current__range {
+  display: flex;
+  gap: 24px;
+}
+
+.current__temp {
+  font-size: 2.5rem;
+}
+
+.current__extra {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+}

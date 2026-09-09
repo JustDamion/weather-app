@@ -5,5 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
   </head>
-  <body></body>
+
+  <body>
+    <input type="tel" name="zipcode" id="zipcode-input" />
+    <button id="submit-button">Get forecast</button>
+
+    <div class="location">
+      <h1 class="location__title"></h1>
+    </div>
+
+    <div class="alerts" id="alerts"></div>
+
+    <div class="current card">
+      <h2 class="current__title">Current</h2>
+      <div class="current__range">
+        <p class="current__high" id="current-high"></p>
+        <p class="current__low" id="current-low"></p>
+      </div>
+
+      <h3 class="current__temp" id="current-temp"></h3>
+      <p class="current__conditions" id="current-conditions"></p>
+
+      <div class="current__extra">
+        <p class="current__feels-like" id="current-feels-like"></p>
+        <p class="current__humidity" id="current-humidity"></p>
+        <p class="current__uv" id="current-uv"></p>
+      </div>
+    </div>
+
+    <div class="hourly card">
+      <div class="hourly__hours">
+        <div class="hour"></div>
+      </div>
+    </div>
+
+    <div class="forecast card">
+      <h2 class="forecast__title">14-day forecast</h2>
+      <div class="forecast__days">
+        <div class="day"></div>
+      </div>
+    </div>
+  </body>
 </html>
