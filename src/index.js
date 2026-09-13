@@ -26,10 +26,14 @@ submitButton.addEventListener("click", () => {
   const currentSunsetElement = document.getElementById("current-sunset-time");
   const currentConditionsElement =
     document.getElementById("current-conditions");
+  const unitToggle = document.getElementById("unit-toggle");
   const location = locationInput.value;
+  const unitRegion = unitToggle.checked ? "metric" : "us";
+  const tempUnit = unitToggle.checked ? "C" : "F";
+  const distanceUnit = unitToggle.checked ? "km/h" : "mph";
   const forecastDiv = document.getElementById("forecast-days");
 
-  getWeatherData(location, "us").then((weatherData) => {
+  getWeatherData(location, unitRegion).then((weatherData) => {
     const currentConditions = weatherData.currentConditions;
     const todayForecast = weatherData.days[0];
     const alerts = weatherData.alerts;
@@ -39,14 +43,14 @@ submitButton.addEventListener("click", () => {
       alertsElement.appendChild(createAlert(alert));
     }
 
-    currentTempElement.textContent = `${Math.round(currentConditions.temp)}°F`;
+    currentTempElement.textContent = `${Math.round(currentConditions.temp)}°${tempUnit}`;
     currentConditionsElement.textContent = currentConditions.conditions;
-    currentLowElement.textContent = `${Math.round(todayForecast.tempmin)}°F`;
-    currentHighElement.textContent = `${Math.round(todayForecast.tempmax)}°F`;
-    currentFeelsLikeElement.textContent = `${Math.round(currentConditions.feelslike)}°F`;
+    currentLowElement.textContent = `${Math.round(todayForecast.tempmin)}°${tempUnit}`;
+    currentHighElement.textContent = `${Math.round(todayForecast.tempmax)}°${tempUnit}`;
+    currentFeelsLikeElement.textContent = `${Math.round(currentConditions.feelslike)}°${tempUnit}`;
     currentHumidityElement.textContent = `${Math.round(currentConditions.humidity)}%`;
     currentUvElement.textContent = `${currentConditions.uvindex}`;
-    currentWindElement.textContent = `${Math.round(currentConditions.windspeed)} mph`;
+    currentWindElement.textContent = `${Math.round(currentConditions.windspeed)} ${distanceUnit}`;
     currentPrecipitationChance.textContent = `${Math.round(currentConditions.precipprob)}%`;
     currentSunsetElement.textContent = convertToTwelveHourFormat(
       currentConditions.sunset,
@@ -55,11 +59,11 @@ submitButton.addEventListener("click", () => {
 
     forecastDiv.textContent = "";
     for (let i = 1; i < weatherData.days.length; i++) {
-      createDayForecast(weatherData.days[i]);
+      createDayForecast(weatherData.days[i], tempUnit, distanceUnit);
     }
   });
 
-  getHourlyWeatherData(location, "us").then((weatherData) => {
+  getHourlyWeatherData(location, unitRegion).then((weatherData) => {
     submitTime = weatherData.currentConditions.datetimeEpoch;
     const nextDayTime = submitTime + 60 * 60 * 24;
     const hourlyDiv = document.getElementById("hours");
@@ -72,7 +76,7 @@ submitButton.addEventListener("click", () => {
           hour.datetimeEpoch <= nextDayTime
         ) {
           hour.datetime = convertToTwelveHourFormat(hour.datetime, false);
-          createHourForecast(hour);
+          createHourForecast(hour, tempUnit);
         }
       }
     }

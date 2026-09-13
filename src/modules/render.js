@@ -31,7 +31,7 @@ function createAlert(alert) {
   return alertDiv;
 }
 
-function createDayForecast(day) {
+function createDayForecast(day, tempUnit, distanceUnit) {
   const forecastTableBody = document.getElementById("forecast-days");
 
   const dayRow = document.createElement("tr");
@@ -57,15 +57,15 @@ function createDayForecast(day) {
 
   const windSpeed = document.createElement("td");
   windSpeed.setAttribute("class", "day__wind");
-  windSpeed.textContent = `${Math.round(day.windspeed)} mph`;
+  windSpeed.textContent = `${Math.round(day.windspeed)} ${distanceUnit}`;
 
   const low = document.createElement("td");
   low.setAttribute("class", "day__low");
-  low.textContent = `↓ ${Math.round(day.tempmin)}°F`;
+  low.textContent = `↓ ${Math.round(day.tempmin)}°${tempUnit}`;
 
   const high = document.createElement("td");
   high.setAttribute("class", "day__high");
-  high.textContent = `↑ ${Math.round(day.tempmax)}°F`;
+  high.textContent = `↑ ${Math.round(day.tempmax)}°${tempUnit}`;
 
   dayRow.appendChild(name);
   dayRow.appendChild(conditions);
@@ -78,7 +78,7 @@ function createDayForecast(day) {
   forecastTableBody.appendChild(dayRow);
 }
 
-function createHourForecast(hour) {
+function createHourForecast(hour, unit) {
   const hourlyDiv = document.getElementById("hours");
 
   const hourDiv = document.createElement("div");
@@ -86,7 +86,7 @@ function createHourForecast(hour) {
 
   const temp = document.createElement("p");
   temp.setAttribute("class", "hour__temp");
-  temp.textContent = `${Math.round(hour.temp)}°F`;
+  temp.textContent = `${Math.round(hour.temp)}°${unit}`;
 
   const time = document.createElement("p");
   time.setAttribute("class", "hour__time");
