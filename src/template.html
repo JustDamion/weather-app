@@ -35,15 +35,33 @@
       </div>
 
       <div class="feels-like card">
+        <h3>Feels like</h3>
         <p class="feels-like__temp" id="current-feels-like"></p>
       </div>
 
       <div class="humidity card">
+        <h3>Humidity</h3>
         <p class="humidity__percent" id="current-humidity"></p>
       </div>
 
       <div class="uv card">
+        <h3>UV Index</h3>
         <p class="uv__measure" id="current-uv"></p>
+      </div>
+
+      <div class="wind card">
+        <h3>Wind Speed</h3>
+        <p class="wind__speed" id="current-wind"></p>
+      </div>
+
+      <div class="precipitation card">
+        <h3>Precipitation Chance</h3>
+        <p class="precipitation__chance" id="current-precipitation-chance"></p>
+      </div>
+
+      <div class="sunset card">
+        <h3>Sunset</h3>
+        <p class="sunset__time" id="current-sunset-time"></p>
       </div>
 
       <div class="hourly card">
@@ -51,13 +69,8 @@
       </div>
 
       <div class="forecast card" id="forecast">
-        <h2 class="forecast__title">14-day forecast</h2>
-
         <table class="forecast__table">
-          <colgroup>
-            <col span="6" />
-          </colgroup>
-
+          <caption class="forecast__title">14-day forecast</caption>
           <thead>
             <tr class="day">
               <th scope="col">Day</th>

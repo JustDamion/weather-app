@@ -19,6 +19,11 @@ submitButton.addEventListener("click", () => {
   const currentFeelsLikeElement = document.getElementById("current-feels-like");
   const currentHumidityElement = document.getElementById("current-humidity");
   const currentUvElement = document.getElementById("current-uv");
+  const currentWindElement = document.getElementById("current-wind");
+  const currentPrecipitationChance = document.getElementById(
+    "current-precipitation-chance",
+  );
+  const currentSunsetElement = document.getElementById("current-sunset-time");
   const currentConditionsElement =
     document.getElementById("current-conditions");
   const location = locationInput.value;
@@ -38,9 +43,15 @@ submitButton.addEventListener("click", () => {
     currentConditionsElement.textContent = currentConditions.conditions;
     currentLowElement.textContent = `${Math.round(todayForecast.tempmin)}°F`;
     currentHighElement.textContent = `${Math.round(todayForecast.tempmax)}°F`;
-    currentFeelsLikeElement.textContent = `Feels like ${Math.round(currentConditions.feelslike)}°F`;
-    currentHumidityElement.textContent = `Humidity: ${Math.round(currentConditions.humidity)}%`;
-    currentUvElement.textContent = `UV Index: ${currentConditions.uvindex}`;
+    currentFeelsLikeElement.textContent = `${Math.round(currentConditions.feelslike)}°F`;
+    currentHumidityElement.textContent = `${Math.round(currentConditions.humidity)}%`;
+    currentUvElement.textContent = `${currentConditions.uvindex}`;
+    currentWindElement.textContent = `${Math.round(currentConditions.windspeed)} mph`;
+    currentPrecipitationChance.textContent = `${Math.round(currentConditions.precipprob)}%`;
+    currentSunsetElement.textContent = convertToTwelveHourFormat(
+      currentConditions.sunset,
+      true,
+    );
 
     forecastDiv.textContent = "";
     for (let i = 1; i < weatherData.days.length; i++) {
@@ -60,7 +71,7 @@ submitButton.addEventListener("click", () => {
           hour.datetimeEpoch >= submitTime &&
           hour.datetimeEpoch <= nextDayTime
         ) {
-          hour.datetime = convertToTwelveHourFormat(hour.datetime);
+          hour.datetime = convertToTwelveHourFormat(hour.datetime, false);
           createHourForecast(hour);
         }
       }
@@ -68,9 +79,10 @@ submitButton.addEventListener("click", () => {
   });
 });
 
-function convertToTwelveHourFormat(time) {
+function convertToTwelveHourFormat(time, includeMinutes) {
   const timeArray = time.split(":");
   let hour = parseInt(timeArray[0]);
+  const minutes = timeArray[1];
   const period = hour >= 12 && hour > 0 ? "PM" : "AM";
 
   if (period === "PM" || hour === 0) {
@@ -81,5 +93,8 @@ function convertToTwelveHourFormat(time) {
     }
   }
 
-  return `${hour}${period}`;
+  const formattedTime = includeMinutes
+    ? `${hour}:${minutes}${period}`
+    : `${hour}${period}`;
+  return formattedTime;
 }

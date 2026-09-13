@@ -96,8 +96,12 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
+}
+
+.alerts {
+  margin: 16px 0;
 }
 
 .current-main {
@@ -162,6 +166,12 @@ body {
 
 .forecast {
   grid-column: -1 / 1;
+}
+
+.forecast__title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
 }
 
 .forecast__table {
