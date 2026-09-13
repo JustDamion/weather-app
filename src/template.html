@@ -7,7 +7,7 @@
   </head>
 
   <body>
-    <input type="tel" name="zipcode" id="zipcode-input" />
+    <input type="text" name="location" id="location-input" />
     <button id="submit-button">Get forecast</button>
 
     <div class="location">
@@ -16,33 +16,45 @@
 
     <div class="alerts" id="alerts"></div>
 
-    <div class="current card">
-      <h2 class="current__title">Current</h2>
-      <div class="current__range">
-        <p class="current__high" id="current-high"></p>
-        <p class="current__low" id="current-low"></p>
+    <div class="grid">
+      <div class="current-main card">
+        <div class="current-range">
+          <div class="current-high">
+            <span class="current-high__arrow">↑</span>
+            <p class="current-high__temp" id="current-high"></p>
+          </div>
+
+          <div class="current-low">
+            <span class="current-low__arrow">↓</span>
+            <p class="current-low__temp" id="current-low"></p>
+          </div>
+        </div>
+
+        <h3 class="current-main__temp" id="current-temp"></h3>
+        <p class="current-main__conditions" id="current-conditions"></p>
       </div>
 
-      <h3 class="current__temp" id="current-temp"></h3>
-      <p class="current__conditions" id="current-conditions"></p>
-
-      <div class="current__extra">
-        <p class="current__feels-like" id="current-feels-like"></p>
-        <p class="current__humidity" id="current-humidity"></p>
-        <p class="current__uv" id="current-uv"></p>
+      <div class="feels-like card">
+        <p class="feels-like__temp" id="current-feels-like"></p>
       </div>
-    </div>
 
-    <div class="hourly card">
-      <div class="hourly__hours">
-        <div class="hour"></div>
+      <div class="humidity card">
+        <p class="humidity__percent" id="current-humidity"></p>
       </div>
-    </div>
 
-    <div class="forecast card">
-      <h2 class="forecast__title">14-day forecast</h2>
-      <div class="forecast__days">
-        <div class="day"></div>
+      <div class="uv card">
+        <p class="uv__measure" id="current-uv"></p>
+      </div>
+
+      <div class="hourly card">
+        <div class="hourly__hours" id="hours"></div>
+      </div>
+
+      <div class="forecast card">
+        <h2 class="forecast__title">14-day forecast</h2>
+        <div class="forecast__days">
+          <div class="day"></div>
+        </div>
       </div>
     </div>
   </body>
