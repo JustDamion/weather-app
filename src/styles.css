@@ -75,6 +75,12 @@ h6 {
 
 /* END CSS RESET */
 
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 body {
   padding: 12px 24px;
   height: 100vh;
@@ -98,6 +104,75 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
+}
+
+.location-label {
+  font-size: 1.2rem;
+}
+
+.location-input {
+  padding: 0 12px;
+  height: 36px;
+  flex-grow: 1;
+  border: 1px solid var(--c-graphite);
+  border-radius: 16px;
+  background-color: var(--c-white);
+  color: var(--c-graphite);
+}
+
+.submit-button {
+  font-weight: bold;
+  padding: 6px 28px;
+  color: var(--c-white);
+  background-color: var(--c-graphite);
+  border: 1px solid var(--c-graphite);
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: var(--c-stormy-teal);
+}
+
+.unit-toggle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 70px;
+  height: 36px;
+  background: var(--c-white);
+  border: 1px solid var(--c-graphite);
+  border-radius: 32px;
+  position: relative;
+  cursor: pointer;
+}
+
+.unit-toggle::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  content: "F";
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0.14em;
+  left: 0.14em;
+  background: var(--c-graphite);
+  border-radius: 50%;
+  -webkit-transition: 0.1s;
+  -o-transition: 0.1s;
+  transition: 0.1s;
+}
+
+.unit-toggle:checked::before {
+  content: "C";
+  left: calc(100% - 30px - 0.14em);
+  background-position: 0;
+}
+
+.unit-toggle:checked {
+  background-position: 100%;
 }
 
 .alerts {

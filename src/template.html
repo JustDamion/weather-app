@@ -7,8 +7,18 @@
   </head>
 
   <body>
-    <input type="text" name="location" id="location-input" />
-    <button id="submit-button">Get forecast</button>
+    <header>
+      <label class="location-label" for="location-input">Location:</label>
+      <input
+        class="location-input"
+        type="text"
+        name="location"
+        id="location-input"
+        placeholder="San Francisco, California"
+      />
+      <button class="submit-button" id="submit-button">Get forecast</button>
+      <input class="unit-toggle" type="checkbox" name="unit" id="unit-toggle" />
+    </header>
 
     <div class="location">
       <h1 class="location__title"></h1>
@@ -70,7 +80,9 @@
 
       <div class="forecast card" id="forecast">
         <table class="forecast__table">
-          <caption class="forecast__title">14-day forecast</caption>
+          <caption class="forecast__title">
+            14-day forecast
+          </caption>
           <thead>
             <tr class="day">
               <th scope="col">Day</th>
