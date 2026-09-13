@@ -1,3 +1,5 @@
+import { convertToTwelveHourFormat, createHtmlElement } from "./util.js";
+
 const WEEKDAY = [
   "Sunday",
   "Monday",
@@ -8,94 +10,148 @@ const WEEKDAY = [
   "Saturday",
 ];
 
-function createAlert(alert) {
-  const alertDiv = document.createElement("div");
-  alertDiv.setAttribute("class", "alert");
+function renderCurrentConditions(weatherData, tempUnit, distanceUnit) {
+  const currentConditions = weatherData.currentConditions;
+  const todayForecast = weatherData.days[0];
 
-  const event = document.createElement("h3");
-  event.setAttribute("class", "alert__event");
-  event.textContent = alert.event;
+  const temp = document.getElementById("current-temp");
+  const conditions = document.getElementById("current-conditions");
+  const low = document.getElementById("current-low");
+  const high = document.getElementById("current-high");
+  const feelsLike = document.getElementById("current-feels-like");
+  const humidity = document.getElementById("current-humidity");
+  const uv = document.getElementById("current-uv");
+  const windSpeed = document.getElementById("current-wind");
+  const precipitationChance = document.getElementById(
+    "current-precipitation-chance",
+  );
+  const sunset = document.getElementById("current-sunset-time");
 
-  const headline = document.createElement("h4");
-  headline.setAttribute("class", "alert__headline");
-  headline.textContent = alert.headline;
-
-  const description = document.createElement("p");
-  description.setAttribute("class", "alert__description");
-  description.textContent = alert.description;
-
-  alertDiv.appendChild(event);
-  alertDiv.appendChild(headline);
-  alertDiv.appendChild(description);
-
-  return alertDiv;
+  temp.textContent = `${Math.round(currentConditions.temp)}°${tempUnit}`;
+  conditions.textContent = currentConditions.conditions;
+  low.textContent = `${Math.round(todayForecast.tempmin)}°${tempUnit}`;
+  high.textContent = `${Math.round(todayForecast.tempmax)}°${tempUnit}`;
+  feelsLike.textContent = `${Math.round(currentConditions.feelslike)}°${tempUnit}`;
+  humidity.textContent = `${Math.round(currentConditions.humidity)}%`;
+  uv.textContent = `${currentConditions.uvindex}`;
+  windSpeed.textContent = `${Math.round(currentConditions.windspeed)} ${distanceUnit}`;
+  precipitationChance.textContent = `${Math.round(currentConditions.precipprob)}%`;
+  sunset.textContent = convertToTwelveHourFormat(
+    currentConditions.sunset,
+    true,
+  );
 }
 
-function createDayForecast(day, tempUnit, distanceUnit) {
+function renderAlerts(alerts) {
+  const alertsElement = document.getElementById("alerts");
+  alertsElement.textContent = "";
+
+  for (let alert of alerts) {
+    const alertDiv = createHtmlElement("div", "alert");
+    const event = createHtmlElement("h3", "alert__event", alert.event);
+    const headline = createHtmlElement("h4", "alert__headline", alert.headline);
+    const description = createHtmlElement(
+      "p",
+      "alert__description",
+      alert.description,
+    );
+
+    alertDiv.appendChild(event);
+    alertDiv.appendChild(headline);
+    alertDiv.appendChild(description);
+
+    alertsElement.appendChild(alertDiv);
+  }
+}
+
+function renderTwoWeekForecast(days, tempUnit, distanceUnit) {
   const forecastTableBody = document.getElementById("forecast-days");
+  forecastTableBody.textContent = "";
 
-  const dayRow = document.createElement("tr");
-  dayRow.setAttribute("class", "day");
+  for (let i = 1; i < days.length; i++) {
+    const date = new Date(days[i].datetime);
+    const weekDay = WEEKDAY[date.getDay()];
 
-  const date = new Date(day.datetime);
-  const weekDay = WEEKDAY[date.getDay()];
-  const name = document.createElement("td");
-  name.setAttribute("class", "day__week-day");
-  name.textContent = weekDay;
+    const dayRow = createHtmlElement("tr", "day");
+    const name = createHtmlElement("td", "day__week-day", weekDay);
+    const conditions = createHtmlElement(
+      "td",
+      "day__conditions",
+      days[i].conditions,
+    );
+    const humidity = createHtmlElement(
+      "td",
+      "day__humidity",
+      `${Math.round(days[i].humidity)}%`,
+    );
+    const precipitationChance = createHtmlElement(
+      "td",
+      "day__precipitation",
+      `${days[i].precipprob}%`,
+    );
+    const windSpeed = createHtmlElement(
+      "td",
+      "day__wind",
+      `${Math.round(days[i].windspeed)} ${distanceUnit}`,
+    );
+    const low = createHtmlElement(
+      "td",
+      "day__low",
+      `↓ ${Math.round(days[i].tempmin)}°${tempUnit}`,
+    );
+    const high = createHtmlElement(
+      "td",
+      "day__high",
+      `↑ ${Math.round(days[i].tempmax)}°${tempUnit}`,
+    );
 
-  const conditions = document.createElement("td");
-  conditions.setAttribute("class", "day__conditions");
-  conditions.textContent = day.conditions;
+    dayRow.appendChild(name);
+    dayRow.appendChild(conditions);
+    dayRow.appendChild(humidity);
+    dayRow.appendChild(precipitationChance);
+    dayRow.appendChild(windSpeed);
+    dayRow.appendChild(low);
+    dayRow.appendChild(high);
 
-  const humidity = document.createElement("td");
-  humidity.setAttribute("class", "day__humidity");
-  humidity.textContent = `${Math.round(day.humidity)}%`;
-
-  const precipitationChance = document.createElement("td");
-  precipitationChance.setAttribute("class", "day__precipitation");
-  precipitationChance.textContent = `${day.precipprob}%`;
-
-  const windSpeed = document.createElement("td");
-  windSpeed.setAttribute("class", "day__wind");
-  windSpeed.textContent = `${Math.round(day.windspeed)} ${distanceUnit}`;
-
-  const low = document.createElement("td");
-  low.setAttribute("class", "day__low");
-  low.textContent = `↓ ${Math.round(day.tempmin)}°${tempUnit}`;
-
-  const high = document.createElement("td");
-  high.setAttribute("class", "day__high");
-  high.textContent = `↑ ${Math.round(day.tempmax)}°${tempUnit}`;
-
-  dayRow.appendChild(name);
-  dayRow.appendChild(conditions);
-  dayRow.appendChild(humidity);
-  dayRow.appendChild(precipitationChance);
-  dayRow.appendChild(windSpeed);
-  dayRow.appendChild(low);
-  dayRow.appendChild(high);
-
-  forecastTableBody.appendChild(dayRow);
+    forecastTableBody.appendChild(dayRow);
+  }
 }
 
-function createHourForecast(hour, unit) {
+function renderHourlyForecast(weatherData, tempUnit) {
+  const submitTime = weatherData.currentConditions.datetimeEpoch;
+  const nextDayTime = submitTime + 60 * 60 * 24;
+
   const hourlyDiv = document.getElementById("hours");
+  hourlyDiv.textContent = "";
 
-  const hourDiv = document.createElement("div");
-  hourDiv.setAttribute("class", "hour");
+  for (let i = 0; i < weatherData.days.length; i++) {
+    for (let hour of weatherData.days[i].hours) {
+      if (
+        hour.datetimeEpoch >= submitTime &&
+        hour.datetimeEpoch <= nextDayTime
+      ) {
+        hour.datetime = convertToTwelveHourFormat(hour.datetime, false);
 
-  const temp = document.createElement("p");
-  temp.setAttribute("class", "hour__temp");
-  temp.textContent = `${Math.round(hour.temp)}°${unit}`;
+        const hourDiv = createHtmlElement("div", "hour");
+        const temp = createHtmlElement(
+          "p",
+          "hour__temp",
+          `${Math.round(hour.temp)}°${tempUnit}`,
+        );
+        const time = createHtmlElement("p", "hour__time", hour.datetime);
 
-  const time = document.createElement("p");
-  time.setAttribute("class", "hour__time");
-  time.textContent = hour.datetime;
+        hourDiv.appendChild(time);
+        hourDiv.appendChild(temp);
 
-  hourDiv.appendChild(time);
-  hourDiv.appendChild(temp);
-
-  hourlyDiv.appendChild(hourDiv);
+        hourlyDiv.appendChild(hourDiv);
+      }
+    }
+  }
 }
 
-export { createAlert, createDayForecast, createHourForecast };
+export {
+  renderCurrentConditions,
+  renderAlerts,
+  renderTwoWeekForecast,
+  renderHourlyForecast,
+};
