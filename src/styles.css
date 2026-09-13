@@ -76,6 +76,7 @@ h6 {
 /* END CSS RESET */
 
 body {
+  padding: 12px 24px;
   height: 100vh;
   font-family:
     "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
@@ -88,18 +89,22 @@ body {
   padding: 12px 24px;
   color: var(--c-alabaster-grey);
   background-color: var(--c-yale-blue);
-  /* border: 2px solid var(--c-stormy-teal); */
+  border: 2px solid var(--c-stormy-teal);
   border-radius: 24px;
+  box-shadow: 2px 2px 3px var(--c-graphite);
 }
 
 .grid {
   display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
 }
 
 .current-main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  grid-row: span 3;
 }
 
 .current-range {
@@ -136,6 +141,7 @@ body {
 
 .hourly {
   max-width: 100vw;
+  grid-column: 1 / -1;
 }
 
 .hourly__hours {
@@ -143,11 +149,17 @@ body {
   justify-content: space-between;
   overflow: scroll;
   overflow-y: hidden;
-  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-stormy-teal) transparent;
+  gap: 20px;
 }
 
 .hour {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.forecast {
+  grid-column: -1 / 1;
 }
