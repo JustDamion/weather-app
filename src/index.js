@@ -1,4 +1,8 @@
-import { createAlert, createHourForecast } from "./modules/render.js";
+import {
+  createAlert,
+  createDayForecast,
+  createHourForecast,
+} from "./modules/render.js";
 import { getHourlyWeatherData, getWeatherData } from "./modules/weather.js";
 import "./styles.css";
 
@@ -18,6 +22,7 @@ submitButton.addEventListener("click", () => {
   const currentConditionsElement =
     document.getElementById("current-conditions");
   const location = locationInput.value;
+  const forecastDiv = document.getElementById("forecast-days");
 
   getWeatherData(location, "us").then((weatherData) => {
     const currentConditions = weatherData.currentConditions;
@@ -36,6 +41,11 @@ submitButton.addEventListener("click", () => {
     currentFeelsLikeElement.textContent = `Feels like ${Math.round(currentConditions.feelslike)}°F`;
     currentHumidityElement.textContent = `Humidity: ${Math.round(currentConditions.humidity)}%`;
     currentUvElement.textContent = `UV Index: ${currentConditions.uvindex}`;
+
+    forecastDiv.textContent = "";
+    for (let i = 1; i < weatherData.days.length; i++) {
+      createDayForecast(weatherData.days[i]);
+    }
   });
 
   getHourlyWeatherData(location, "us").then((weatherData) => {

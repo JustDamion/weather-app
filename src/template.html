@@ -50,11 +50,28 @@
         <div class="hourly__hours" id="hours"></div>
       </div>
 
-      <div class="forecast card">
+      <div class="forecast card" id="forecast">
         <h2 class="forecast__title">14-day forecast</h2>
-        <div class="forecast__days">
-          <div class="day"></div>
-        </div>
+
+        <table class="forecast__table">
+          <colgroup>
+            <col span="6" />
+          </colgroup>
+
+          <thead>
+            <tr class="day">
+              <th scope="col">Day</th>
+              <th scope="col">Conditions</th>
+              <th scope="col">Humidity</th>
+              <th scope="col">Precipitation Chance</th>
+              <th scope="col">Wind Speed</th>
+              <th scope="col">Low</th>
+              <th scope="col">High</th>
+            </tr>
+          </thead>
+
+          <tbody class="forecast__days" id="forecast-days"></tbody>
+        </table>
       </div>
     </div>
   </body>

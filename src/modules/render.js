@@ -1,3 +1,13 @@
+const WEEKDAY = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 function createAlert(alert) {
   const alertDiv = document.createElement("div");
   alertDiv.setAttribute("class", "alert");
@@ -21,6 +31,53 @@ function createAlert(alert) {
   return alertDiv;
 }
 
+function createDayForecast(day) {
+  const forecastTableBody = document.getElementById("forecast-days");
+
+  const dayRow = document.createElement("tr");
+  dayRow.setAttribute("class", "day");
+
+  const date = new Date(day.datetime);
+  const weekDay = WEEKDAY[date.getDay()];
+  const name = document.createElement("td");
+  name.setAttribute("class", "day__week-day");
+  name.textContent = weekDay;
+
+  const conditions = document.createElement("td");
+  conditions.setAttribute("class", "day__conditions");
+  conditions.textContent = day.conditions;
+
+  const humidity = document.createElement("td");
+  humidity.setAttribute("class", "day__humidity");
+  humidity.textContent = `${Math.round(day.humidity)}%`;
+
+  const precipitationChance = document.createElement("td");
+  precipitationChance.setAttribute("class", "day__precipitation");
+  precipitationChance.textContent = `${day.precipprob}%`;
+
+  const windSpeed = document.createElement("td");
+  windSpeed.setAttribute("class", "day__wind");
+  windSpeed.textContent = `${Math.round(day.windspeed)} mph`;
+
+  const low = document.createElement("td");
+  low.setAttribute("class", "day__low");
+  low.textContent = `↓ ${Math.round(day.tempmin)}°F`;
+
+  const high = document.createElement("td");
+  high.setAttribute("class", "day__high");
+  high.textContent = `↑ ${Math.round(day.tempmax)}°F`;
+
+  dayRow.appendChild(name);
+  dayRow.appendChild(conditions);
+  dayRow.appendChild(humidity);
+  dayRow.appendChild(precipitationChance);
+  dayRow.appendChild(windSpeed);
+  dayRow.appendChild(low);
+  dayRow.appendChild(high);
+
+  forecastTableBody.appendChild(dayRow);
+}
+
 function createHourForecast(hour) {
   const hourlyDiv = document.getElementById("hours");
 
@@ -35,10 +92,10 @@ function createHourForecast(hour) {
   time.setAttribute("class", "hour__time");
   time.textContent = hour.datetime;
 
-  hourDiv.appendChild(temp);
   hourDiv.appendChild(time);
+  hourDiv.appendChild(temp);
 
   hourlyDiv.appendChild(hourDiv);
 }
 
-export { createAlert, createHourForecast };
+export { createAlert, createDayForecast, createHourForecast };
