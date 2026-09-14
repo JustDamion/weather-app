@@ -52,7 +52,7 @@ function renderCurrentConditions(weatherData, tempUnit, distanceUnit) {
   humidity.textContent = `${Math.round(currentConditions.humidity)}%`;
   uv.textContent = `${currentConditions.uvindex}`;
   windSpeed.textContent = `${Math.round(currentConditions.windspeed)} ${distanceUnit}`;
-  precipitationChance.textContent = `${Math.round(currentConditions.precipprob)}%`;
+  precipitationChance.textContent = `${Math.round(currentConditions.precipprob) || 0}%`;
   sunset.textContent = convertToTwelveHourFormat(
     currentConditions.sunset,
     true,
