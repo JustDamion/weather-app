@@ -104,7 +104,7 @@ function renderTwoWeekForecast(days, tempUnit, distanceUnit) {
     const precipitationChance = createHtmlElement(
       "td",
       "day__precipitation",
-      `${days[i].precipprob}%`,
+      `${days[i].precipprob || 0}%`,
     );
     const windSpeed = createHtmlElement(
       "td",
