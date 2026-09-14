@@ -1,4 +1,5 @@
 import { convertToTwelveHourFormat, createHtmlElement } from "./util.js";
+import { getWeatherIcon } from "./weather.js";
 
 const WEEKDAY = [
   "Sunday",
@@ -129,7 +130,7 @@ function renderTwoWeekForecast(days, tempUnit, distanceUnit) {
   }
 }
 
-function renderHourlyForecast(weatherData, tempUnit) {
+async function renderHourlyForecast(weatherData, tempUnit) {
   const submitTime = weatherData.currentConditions.datetimeEpoch;
   const nextDayTime = submitTime + 60 * 60 * 24;
 
@@ -151,8 +152,10 @@ function renderHourlyForecast(weatherData, tempUnit) {
           `${Math.round(hour.temp)}°${tempUnit}`,
         );
         const time = createHtmlElement("p", "hour__time", hour.datetime);
+        const weatherIcon = await getWeatherIcon(hour.icon);
 
         hourDiv.appendChild(time);
+        hourDiv.appendChild(weatherIcon.default.cloneNode(true));
         hourDiv.appendChild(temp);
 
         hourlyDiv.appendChild(hourDiv);

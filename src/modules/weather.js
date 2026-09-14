@@ -24,4 +24,8 @@ async function getHourlyWeatherData(location, unit) {
   }
 }
 
-export { getWeatherData, getHourlyWeatherData };
+async function getWeatherIcon(iconId) {
+  return await import(`../images/icons/${iconId}.js`);
+}
+
+export { getWeatherData, getHourlyWeatherData, getWeatherIcon };
