@@ -3,6 +3,8 @@ import {
   renderAlerts,
   renderCurrentConditions,
   renderTwoWeekForecast,
+  showLoading,
+  hideLoading,
 } from "./modules/render.js";
 import { getHourlyWeatherData, getWeatherData } from "./modules/weather.js";
 import "./styles.css";
@@ -15,7 +17,10 @@ const unitRegion = unitToggle.checked ? "metric" : "us";
 const tempUnit = unitToggle.checked ? "C" : "F";
 const distanceUnit = unitToggle.checked ? "km/h" : "mph";
 
+showLoading();
+
 getWeatherData("San Francisco, California", unitRegion).then((weatherData) => {
+  hideLoading();
   locationTitle.textContent = "San Francisco, California";
   renderAlerts(weatherData.alerts);
   renderCurrentConditions(weatherData, tempUnit, distanceUnit);
@@ -29,7 +34,9 @@ getHourlyWeatherData("San Francisco, California", unitRegion).then(
 );
 
 submitButton.addEventListener("click", () => {
+  showLoading();
   getWeatherData(locationInput.value, unitRegion).then((weatherData) => {
+    hideLoading();
     locationTitle.textContent = locationInput.value;
     renderAlerts(weatherData.alerts);
     renderCurrentConditions(weatherData, tempUnit, distanceUnit);

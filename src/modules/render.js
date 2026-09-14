@@ -10,6 +10,18 @@ const WEEKDAY = [
   "Saturday",
 ];
 
+function showLoading() {
+  const loading = document.getElementById("loading");
+  loading.classList.remove("hide");
+  loading.classList.add("show");
+}
+
+function hideLoading() {
+  const loading = document.getElementById("loading");
+  loading.classList.remove("show");
+  loading.classList.add("hide");
+}
+
 function renderCurrentConditions(weatherData, tempUnit, distanceUnit) {
   const currentConditions = weatherData.currentConditions;
   const todayForecast = weatherData.days[0];
@@ -154,4 +166,6 @@ export {
   renderAlerts,
   renderTwoWeekForecast,
   renderHourlyForecast,
+  showLoading,
+  hideLoading,
 };

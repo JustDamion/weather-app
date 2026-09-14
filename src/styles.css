@@ -107,6 +107,33 @@ body {
   gap: 12px;
 }
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.loading {
+  width: 3rem;
+  height: 3rem;
+  border: 5px solid var(--c-white);
+  border-top: 6px solid var(--c-stormy-teal);
+  border-radius: 100%;
+  margin: auto;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .location-label {
   font-size: 1.2rem;
 }
