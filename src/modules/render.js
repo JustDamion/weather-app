@@ -1,5 +1,9 @@
 import { convertToTwelveHourFormat, createHtmlElement } from "./util.js";
-import { getWeatherIcon } from "./weather.js";
+import {
+  getHourlyWeatherData,
+  getWeatherData,
+  getWeatherIcon,
+} from "./weather.js";
 
 const WEEKDAY = [
   "Sunday",
@@ -164,11 +168,21 @@ async function renderHourlyForecast(weatherData, tempUnit) {
   }
 }
 
-export {
-  renderCurrentConditions,
-  renderAlerts,
-  renderTwoWeekForecast,
-  renderHourlyForecast,
-  showLoading,
-  hideLoading,
-};
+function render(location, unitRegion, tempUnit, distanceUnit) {
+  const locationTitle = document.getElementById("location-title");
+
+  showLoading();
+  getWeatherData(location, unitRegion).then((weatherData) => {
+    hideLoading();
+    locationTitle.textContent = location;
+    renderAlerts(weatherData.alerts);
+    renderCurrentConditions(weatherData, tempUnit, distanceUnit);
+    renderTwoWeekForecast(weatherData.days, tempUnit, distanceUnit);
+  });
+
+  getHourlyWeatherData(location, unitRegion).then((weatherData) => {
+    renderHourlyForecast(weatherData, tempUnit);
+  });
+}
+
+export { render };

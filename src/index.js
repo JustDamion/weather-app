@@ -1,49 +1,36 @@
-import {
-  renderHourlyForecast,
-  renderAlerts,
-  renderCurrentConditions,
-  renderTwoWeekForecast,
-  showLoading,
-  hideLoading,
-} from "./modules/render.js";
-import { getHourlyWeatherData, getWeatherData } from "./modules/weather.js";
+import { render } from "./modules/render.js";
 import "./styles.css";
+
+const DEFAULT = {
+  location: "San Francisco, California",
+  region: "us",
+};
 
 const locationInput = document.getElementById("location-input");
 const submitButton = document.getElementById("submit-button");
-const locationTitle = document.getElementById("location-title");
 const unitToggle = document.getElementById("unit-toggle");
-const unitRegion = unitToggle.checked ? "metric" : "us";
-const tempUnit = unitToggle.checked ? "C" : "F";
-const distanceUnit = unitToggle.checked ? "km/h" : "mph";
+let unitRegion = unitToggle.checked ? "metric" : "us";
+let tempUnit = unitToggle.checked ? "C" : "F";
+let distanceUnit = unitToggle.checked ? "km/h" : "mph";
 
-showLoading();
-
-getWeatherData("San Francisco, California", unitRegion).then((weatherData) => {
-  hideLoading();
-  locationTitle.textContent = "San Francisco, California";
-  renderAlerts(weatherData.alerts);
-  renderCurrentConditions(weatherData, tempUnit, distanceUnit);
-  renderTwoWeekForecast(weatherData.days, tempUnit, distanceUnit);
-});
-
-getHourlyWeatherData("San Francisco, California", unitRegion).then(
-  (weatherData) => {
-    renderHourlyForecast(weatherData, tempUnit);
-  },
-);
+render(DEFAULT.location, DEFAULT.region, tempUnit, distanceUnit);
 
 submitButton.addEventListener("click", () => {
-  showLoading();
-  getWeatherData(locationInput.value, unitRegion).then((weatherData) => {
-    hideLoading();
-    locationTitle.textContent = locationInput.value;
-    renderAlerts(weatherData.alerts);
-    renderCurrentConditions(weatherData, tempUnit, distanceUnit);
-    renderTwoWeekForecast(weatherData.days, tempUnit, distanceUnit);
-  });
+  unitRegion = unitToggle.checked ? "metric" : "us";
+  tempUnit = unitToggle.checked ? "C" : "F";
+  distanceUnit = unitToggle.checked ? "km/h" : "mph";
 
-  getHourlyWeatherData(locationInput.value, unitRegion).then((weatherData) => {
-    renderHourlyForecast(weatherData, tempUnit);
-  });
+  const location = locationInput.value || DEFAULT.location;
+
+  render(location, unitRegion, tempUnit, distanceUnit);
+});
+
+unitToggle.addEventListener("change", () => {
+  unitRegion = unitToggle.checked ? "metric" : "us";
+  tempUnit = unitToggle.checked ? "C" : "F";
+  distanceUnit = unitToggle.checked ? "km/h" : "mph";
+
+  const location = locationInput.value || DEFAULT.location;
+
+  render(location, unitRegion, tempUnit, distanceUnit);
 });
