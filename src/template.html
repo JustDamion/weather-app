@@ -17,64 +17,52 @@
         id="location-input"
         placeholder="San Francisco, California"
       />
-      <button class="submit-button" id="submit-button">Get forecast</button>
+      <button class="submit-button" id="submit-button" type="button">Get forecast</button>
       <input class="unit-toggle" type="checkbox" name="unit" id="unit-toggle" />
     </header>
 
     <div class="loading" id="loading"></div>
 
-    <div class="location">
-      <h1 class="location__title" id="location-title"></h1>
+    <div class="location" id="location">
     </div>
 
     <div class="alerts" id="alerts"></div>
 
     <div class="grid">
-      <div class="current-main card">
+      <div class="current-main card" id="current-main">
         <div class="current-range">
-          <div class="current-high">
+          <div class="current-high" id="current-high">
             <span class="current-high__arrow">↑</span>
-            <p class="current-high__temp" id="current-high"></p>
           </div>
 
-          <div class="current-low">
+          <div class="current-low" id="current-low">
             <span class="current-low__arrow">↓</span>
-            <p class="current-low__temp" id="current-low"></p>
           </div>
         </div>
-
-        <h3 class="current-main__temp" id="current-temp"></h3>
-        <p class="current-main__conditions" id="current-conditions"></p>
       </div>
 
-      <div class="feels-like card">
+      <div class="feels-like card" id="current-feels-like">
         <h3>Feels like</h3>
-        <p class="feels-like__temp" id="current-feels-like"></p>
       </div>
 
-      <div class="humidity card">
+      <div class="humidity card" id="current-humidity">
         <h3>Humidity</h3>
-        <p class="humidity__percent" id="current-humidity"></p>
       </div>
 
-      <div class="uv card">
+      <div class="uv card" id="current-uv">
         <h3>UV Index</h3>
-        <p class="uv__measure" id="current-uv"></p>
       </div>
 
-      <div class="wind card">
+      <div class="wind card" id="current-wind">
         <h3>Wind Speed</h3>
-        <p class="wind__speed" id="current-wind"></p>
       </div>
 
-      <div class="precipitation card">
+      <div class="precipitation card" id="current-precipitation">
         <h3>Precipitation Chance</h3>
-        <p class="precipitation__chance" id="current-precipitation-chance"></p>
       </div>
 
-      <div class="sunset card">
+      <div class="sunset card" id="current-sunset">
         <h3>Sunset</h3>
-        <p class="sunset__time" id="current-sunset-time"></p>
       </div>
 
       <div class="hourly card">
