@@ -32,8 +32,6 @@ function renderCurrentConditions(weatherData, tempUnit, distanceUnit) {
   const todayForecast = weatherData.days[0];
 
   const currentMainDiv = document.getElementById('current-main');
-  const currentHighDiv = document.getElementById('current-high');
-  const currentLowDiv = document.getElementById('current-low');
   const currentFeelsLikeDiv = document.getElementById('current-feels-like');
   const currentHumidityDiv = document.getElementById('current-humidity');
   const currentUvDiv = document.getElementById('current-uv');
@@ -43,67 +41,114 @@ function renderCurrentConditions(weatherData, tempUnit, distanceUnit) {
   );
   const currentSunsetDiv = document.getElementById('current-sunset');
 
-  const high = createHtmlElement(
-    'p',
-    'current-high__temp',
-    `${Math.round(todayForecast.tempmax)}°${tempUnit}`,
-  );
-  const low = createHtmlElement(
-    'p',
-    'current-low__temp',
-    `${Math.round(todayForecast.tempmin)}°${tempUnit}`,
-  );
-  const temp = createHtmlElement(
-    'h3',
-    'current-main__temp',
-    `${Math.round(currentConditions.temp)}°${tempUnit}`,
-  );
-  const conditions = createHtmlElement(
-    'p',
-    'current-main__conditions',
-    currentConditions.conditions,
-  );
-  const feelsLike = createHtmlElement(
-    'p',
-    'feels-like__temp',
-    `${Math.round(currentConditions.feelslike)}°${tempUnit}`,
-  );
-  const humidity = createHtmlElement(
-    'p',
-    'humidity__percent',
-    `${Math.round(currentConditions.humidity)}%`,
-  );
-  const uv = createHtmlElement(
-    'p',
-    'uv__measure',
-    `${currentConditions.uvindex}`,
-  );
-  const windSpeed = createHtmlElement(
-    'p',
-    'wind__speed',
-    `${Math.round(currentConditions.windspeed)} ${distanceUnit}`,
-  );
-  const precipitationChance = createHtmlElement(
-    'p',
-    'precipitation__chance',
-    `${Math.round(currentConditions.precipprob) || 0}%`,
-  );
-  const sunsetTime = createHtmlElement(
-    'p',
-    'sunset__time',
-    convertToTwelveHourFormat(currentConditions.sunset, true),
+  currentMainDiv.textContent = '';
+  currentFeelsLikeDiv.textContent = '';
+  currentHumidityDiv.textContent = '';
+  currentUvDiv.textContent = '';
+  currentWindDiv.textContent = '';
+  currentPrecipitationDiv.textContent = '';
+  currentSunsetDiv.textContent = '';
+
+  const range = createHtmlElement('div', 'current-range');
+  const highDiv = createHtmlElement('div', 'current-high');
+  const lowDiv = createHtmlElement('div', 'current-low');
+
+  highDiv.appendChild(createHtmlElement('span', 'current-high__arrow', '↑'));
+  highDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'current-high__temp',
+      `${Math.round(todayForecast.tempmax)}°${tempUnit}`,
+    ),
   );
 
-  currentHighDiv.appendChild(high);
-  currentLowDiv.appendChild(low);
-  currentMainDiv.appendChild(temp);
-  currentMainDiv.appendChild(conditions);
-  currentFeelsLikeDiv.appendChild(feelsLike);
-  currentHumidityDiv.appendChild(humidity);
-  currentUvDiv.appendChild(uv);
-  currentWindDiv.appendChild(windSpeed);
-  currentPrecipitationDiv.appendChild(precipitationChance);
-  currentSunsetDiv.appendChild(sunsetTime);
+  lowDiv.appendChild(createHtmlElement('span', 'current-low__arrow', '↓'));
+  lowDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'current-low__temp',
+      `${Math.round(todayForecast.tempmin)}°${tempUnit}`,
+    ),
+  );
+
+  range.appendChild(highDiv);
+  range.appendChild(lowDiv);
+  currentMainDiv.appendChild(range);
+
+  currentMainDiv.appendChild(
+    createHtmlElement(
+      'h3',
+      'current-main__temp',
+      `${Math.round(currentConditions.temp)}°${tempUnit}`,
+    ),
+  );
+  currentMainDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'current-main__conditions',
+      currentConditions.conditions,
+    ),
+  );
+
+  currentFeelsLikeDiv.appendChild(
+    createHtmlElement('h3', 'feels-like__title', 'Feels like'),
+  );
+  currentFeelsLikeDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'feels-like__temp',
+      `${Math.round(currentConditions.feelslike)}°${tempUnit}`,
+    ),
+  );
+
+  currentHumidityDiv.appendChild(
+    createHtmlElement('h3', 'humidity__title', 'Humidity'),
+  );
+  currentHumidityDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'humidity__percent',
+      `${Math.round(currentConditions.humidity)}%`,
+    ),
+  );
+
+  currentUvDiv.appendChild(createHtmlElement('h3', 'uv__title', 'UV Index'));
+  currentUvDiv.appendChild(
+    createHtmlElement('p', 'uv__measure', `${currentConditions.uvindex}`),
+  );
+
+  currentWindDiv.appendChild(
+    createHtmlElement('h3', 'wind__title', 'Wind Speed'),
+  );
+  currentWindDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'wind__speed',
+      `${Math.round(currentConditions.windspeed)} ${distanceUnit}`,
+    ),
+  );
+
+  currentPrecipitationDiv.appendChild(
+    createHtmlElement('h3', 'precipitation__title', 'Precipitation Chance'),
+  );
+  currentPrecipitationDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'precipitation__chance',
+      `${Math.round(currentConditions.precipprob) || 0}%`,
+    ),
+  );
+
+  currentSunsetDiv.appendChild(
+    createHtmlElement('h3', 'sunset__title', 'Sunset'),
+  );
+  currentSunsetDiv.appendChild(
+    createHtmlElement(
+      'p',
+      'sunset__time',
+      convertToTwelveHourFormat(currentConditions.sunset, true),
+    ),
+  );
 }
 
 function renderAlerts(alerts) {
@@ -216,16 +261,14 @@ async function renderHourlyForecast(weatherData, tempUnit) {
 }
 
 function render(location, unitRegion, tempUnit, distanceUnit) {
-  const locationTitle = document.getElementById('location-title');
-
   showLoading();
   getWeatherData(location, unitRegion).then((weatherData) => {
     hideLoading();
     const locationDiv = document.getElementById('location');
+    locationDiv.textContent = '';
     locationDiv.appendChild(
       createHtmlElement('h1', 'location__title', location),
     );
-    locationTitle.textContent = location;
     renderAlerts(weatherData.alerts);
     renderCurrentConditions(weatherData, tempUnit, distanceUnit);
     renderTwoWeekForecast(weatherData.days, tempUnit, distanceUnit);
