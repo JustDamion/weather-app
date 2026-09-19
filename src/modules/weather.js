@@ -28,4 +28,4 @@ async function getWeatherIcon(iconId) {
   return await import(`../images/icons/${iconId}.js`);
 }
 
-export { getWeatherData, getHourlyWeatherData, getWeatherIcon };
+export { getHourlyWeatherData, getWeatherData, getWeatherIcon };
